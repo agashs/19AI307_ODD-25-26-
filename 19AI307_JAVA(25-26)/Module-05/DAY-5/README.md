@@ -1,36 +1,43 @@
-# Ex.No:5(E) MULTITHREADING -SYNCHRONIZATION
+# Ex.No:3(C) ABSTRACTION
 
 ## QUESTION:
-Maintain two int variables a and b, read their initial values from user. Use synchronized block to swap them and print swapped values.
+Description:
+Create abstract class GameScore with method finalScore().
+Subclasses:
 
-Input:
+ArcadeGame: score = baseScore + (level × 100)
 
-Two lines: a and b values
+PuzzleGame: score = (attempts ≤ 3) ? 1000 - (attempts × 100) : 500
 
-Output:
+Input Format:
 
-a = <swapped_a>
+First line: 1 or 2
+Second line: base, level (or attempts)
 
-b = <swapped_b>
+Output Format:
+
+Final score (int)
+
+
 
 ## AIM:
-To demonstrate the use of a synchronized block for safely swapping two integer variables.
+To write a Java program using an abstract class GameScore with subclasses ArcadeGame and PuzzleGame, each implementing its own finalScore() method.
 
 ## ALGORITHM :
-1.	Read two integer values a and b from the user.
-2.	Create a lock object for synchronization.
-3.	Use a synchronized(lock) block to perform the swapping.
-4.	Swap values using a temporary variable.
-5.	Print the swapped values of a and b.
-
-
+1.	Create an abstract class GameScore with an abstract method finalScore().
+2.	Define subclass ArcadeGame where finalScore = baseScore + (level × 100).
+3.	Define subclass PuzzleGame where
+4.	If attempts ≤ 3, score = 1000 - (attempts × 100)
+5.	Else score = 500.
+6.	Take user input for game type and relevant values.
+7.	Display the final score based on game type.
 
 
 
 ## PROGRAM:
  ```
 /*
-Program to implement a Synchronization concept using Java
+Program to implement a Abstraction using Java
 Developed by: AGASH S
 RegisterNumber: 212224040014
 */
@@ -38,56 +45,58 @@ RegisterNumber: 212224040014
 
 ## SOURCE CODE:
 ```
-import java.util.Scanner;
+import java.util.*;
 
-public class SwapSynchronized {
-    private int a;
-    private int b;
+abstract class GameScore {
+    abstract int finalScore();
+}
 
-    public SwapSynchronized(int a, int b) {
-        this.a = a;
-        this.b = b;
+class ArcadeGame extends GameScore {
+    int base, level;
+    ArcadeGame(int base, int level) {
+        this.base = base;
+        this.level = level;
     }
-
-    public void swap() {
-        Object lock = new Object(); // lock object for synchronization
-        synchronized (lock) {
-            int temp = a;
-            a = b;
-            b = temp;
-        }
+    int finalScore() {
+        return base + (level * 100);
     }
+}
 
-    public void printValues() {
-        System.out.println("a = " + a);
-        System.out.println("b = " + b);
+class PuzzleGame extends GameScore {
+    int attempts;
+    PuzzleGame(int attempts) {
+        this.attempts = attempts;
     }
+    int finalScore() {
+        if (attempts <= 3)
+            return 1000 - (attempts * 100);
+        else
+            return 500;
+    }
+}
 
+public class prog {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
-        int a = Integer.parseInt(sc.nextLine());
-        int b = Integer.parseInt(sc.nextLine());
-
-        SwapSynchronized swapper = new SwapSynchronized(a, b);
-        swapper.swap();
-        swapper.printValues();
-
-        sc.close();
+        int type = sc.nextInt();
+        if (type == 1) {
+            int base = sc.nextInt();
+            int level = sc.nextInt();
+            ArcadeGame game = new ArcadeGame(base, level);
+            System.out.println(game.finalScore());
+        } else if (type == 2) {
+            int attempts = sc.nextInt();
+            PuzzleGame game = new PuzzleGame(attempts);
+            System.out.println(game.finalScore());
+        }
     }
 }
 ```
 
-
-
-
-
-
 ## OUTPUT:
-<img width="1315" height="352" alt="image" src="https://github.com/user-attachments/assets/4ac75d2b-e703-4ae2-9edb-c22bc5dc3b45" />
-
+<img width="1147" height="386" alt="image" src="https://github.com/user-attachments/assets/4447ae81-3e1b-46a2-91a4-e2ad7316e6a6" />
 
 ## RESULT:
-The program successfully swaps the two integers inside a synchronized block and displays the swapped values safely.
+The program successfully demonstrates abstraction and inheritance by computing the final score for different game types using subclass-specific logic.
 
 
